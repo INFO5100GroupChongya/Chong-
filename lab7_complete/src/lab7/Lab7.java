@@ -104,6 +104,11 @@ public class Lab7 {
 //        helper.userWithMostLikes();
 //        System.out.println("");
 //        helper.getFiveMostLikedComment();
+        System.out.println("QUESTION 4:");
+        helper.getFiveInactiveUsersPosts();
+        
+        System.out.println("QUESTION 5:");
+        helper.getFiveInactiveUsersComments();
         //6)7)
         System.out.println("");
         System.out.println("QUESTION 6&7:");
