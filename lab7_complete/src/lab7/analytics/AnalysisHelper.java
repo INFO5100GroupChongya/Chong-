@@ -22,13 +22,13 @@ import lab7.entities.User;
 public class AnalysisHelper {
     // find user with Most Likes
     //  key: UserId ; Value: sum of likes from all comments
-    
+    // Question 1
     public void averageNumberLikePerComment(){
         Map<Integer, Comment> comments = DataStore.getInstance().getComments();
         List<Comment> commentList = new ArrayList<>(comments.values());
         int sumLikes = 0;
         //System.out.println("sdfdsfdsfd"+comments.get(0).getLikes());
-        System.out.println(commentList.get(1));
+        //System.out.println(commentList.get(1));
         for (int i = 0; i < commentList.size(); i++) {
             sumLikes += commentList.get(i).getLikes();
         }
@@ -36,6 +36,7 @@ public class AnalysisHelper {
         System.out.println("Average number of like per comment: "+ avNum);
     }
     
+//  Question2
     public void postWithMostLikeComment(){
         Map<Integer,Comment> comments = DataStore.getInstance().getComments();
         int likes = 0;
@@ -49,6 +50,7 @@ public class AnalysisHelper {
         System.out.println("Post with most like comment: No."+ id);
     }
     
+// Question 3
     public void postWithMostComments(){
         Map<Integer,Post> posts = DataStore.getInstance().getPosts();
         int size=0;
@@ -88,7 +90,61 @@ public class AnalysisHelper {
         System.out.println("User with most likes: " + max + "\n" 
             + users.get(maxId));
     }
-    
+    //6)&&7)Top 5 inactive users overall(sum of comments,posts and likes)
+    public void getInactiveAndProActiveUserOverAll(){
+        int sumOverall=0;
+        Map<Integer,User> userMap=DataStore.getInstance().getUsers();
+        Map<Integer,Comment>commentMap=DataStore.getInstance().getComments();
+        Map<Integer, Post>postMap=DataStore.getInstance().getPosts();
+        Map<Integer,Integer>userSumCount=new HashMap<>();
+        List<Comment>commentList=new ArrayList<>(commentMap.values());
+        List<Post>postList=new ArrayList<>(postMap.values());
+
+        for(User user:userMap.values()){
+            int postCount=0;
+            for(Post post:postList){
+                if(post.getUserId()==user.getId()){
+                    postCount++;
+                }
+            }
+            int commentCount=0;
+            int likeCount=0;
+            for(Comment comment:commentList){
+                if(comment.getUserId()==user.getId()){
+                    commentCount++;
+                    likeCount=likeCount+comment.getLikes();
+                }
+            }
+            sumOverall=postCount+likeCount+commentCount;
+            userSumCount.put(user.getId(),sumOverall);
+        }
+
+        List<Map.Entry<Integer,Integer>>userSumList=new ArrayList<>(userSumCount.entrySet());
+        //Collections.sort(userSumList,Comparator.comparing(Map.Entry::getValue));
+        Collections.sort(userSumList, new Comparator<Map.Entry<Integer,Integer>>(){
+
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return o1.getValue() - o2.getValue();
+            }
+        });
+        System.out.println("Top 5 inactive users based on overall: ");
+        for(int i=0;i<userSumList.size()&&i<5;i++){
+            System.out.println("User: No."+userSumList.get(i).getKey()+" Overall : "+userSumList.get(i).getValue());
+        }
+        Collections.sort(userSumList, new Comparator<Map.Entry<Integer,Integer>>(){
+
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        });
+
+        System.out.println("Top 5 Proactive users based on overall: ");
+        for(int i=0;i<userSumList.size()&&i<5;i++){
+            System.out.println("User: No."+userSumList.get(i).getKey()+" Overall: "+userSumList.get(i).getValue());
+        }
+    }
     // find 5 comments which have the most likes
     public void getFiveMostLikedComment() {
         Map<Integer, Comment> comments = DataStore.getInstance().getComments();
