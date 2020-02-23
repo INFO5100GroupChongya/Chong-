@@ -93,16 +93,21 @@ public class Lab7 {
     
     private void runAnalysis(){
         // find user with Most Likes
-        System.out.println("");
+        System.out.println("QUESTION 1:");
         helper.averageNumberLikePerComment();
-        System.out.println("");
+        System.out.println("QUESTION 2:");
         helper.postWithMostLikeComment();
-        System.out.println("");
+        System.out.println("QUESTION 3:");
         helper.postWithMostComments();
         
+//        System.out.println("");
+//        helper.userWithMostLikes();
+//        System.out.println("");
+//        helper.getFiveMostLikedComment();
+        //6)7)
         System.out.println("");
-        helper.userWithMostLikes();
-        System.out.println("");
-        helper.getFiveMostLikedComment();
+        System.out.println("QUESTION 6&7:");
+        helper.getInactiveAndProActiveUserOverAll();
+        
     }
 }
